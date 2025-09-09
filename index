@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Credenciais para Novos Funcionários</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+        #main-card {
+            background-color: white;
+            width: 100%;
+            max-width: 42rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .form-section {
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .form-section-title {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 1rem;
+        }
+        .password-wrapper {
+            position: relative;
+        }
+        .copy-btn {
+            position: absolute;
+            inset-block-start: 0;
+            inset-inline-end: 0;
+            padding-inline: 0.75rem;
+            display: flex;
+            align-items: center;
+            color: #6b7280;
+        }
+        .copy-btn:hover {
+            color: #1f2937;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+
+    <div id="main-card">
+        <div class="p-8">
+            <h1 class="text-2xl font-bold text-gray-800 text-center">Credenciais do Novo Funcionário</h1>
+            <p class="text-center text-gray-500 mt-2 mb-8">Preencha os dados abaixo para gerar as credenciais.</p>
+
+            <form id="credential-form">
+                <!-- Informações Básicas -->
+                <div class="form-section">
+                     <h2 class="form-section-title">Informações do Funcionário</h2>
+                     <div>
+                        <label for="fullName" class="block text-sm font-medium text-gray-700">Nome Completo</label>
+                        <input type="text" id="fullName" name="fullName" required
+                               class="mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                     </div>
+                </div>
+
+                <!-- Zimbra -->
+                <div class="form-section">
+                    <h2 class="form-section-title">Zimbra E-mail</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <label for="zimbraEmail" class="block text-sm font-medium text-gray-700">E-mail</label>
+                            <input type="email" id="zimbraEmail" name="zimbraEmail" required class="mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg">
+                        </div>
+                        <div>
+                            <div class="flex items-center justify-between">
+                                <label for="zimbraPassword" class="block text-sm font-medium text-gray-700">Senha</label>
+                                <button type="button" class="text-sm font-medium text-blue-600 hover:text-blue-500" data-target="zimbraPassword">Gerar Senha</button>
+                            </div>
+                            <div class="password-wrapper mt-1">
+                                <input type="text" id="zimbraPassword" name="zimbraPassword" class="block w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg pr-10">
+                                <button type="button" class="copy-btn" data-target="zimbraPassword">
+                                     <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"></path></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Credenciais Unificadas -->
+                <div class="form-section">
+                    <h2 class="form-section-title">Acessos Principais (AD, MK, Native)</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <label for="mainUsername" class="block text-sm font-medium text-gray-700">Usuário</label>
+                            <input type="text" id="mainUsername" name="mainUsername" class="mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg">
+                        </div>
+                        <div>
+                            <div class="flex items-center justify-between">
+                                <label for="mainPassword" class="block text-sm font-medium text-gray-700">Senha</label>
+                                <button type="button" class="text-sm font-medium text-blue-600 hover:text-blue-500" data-target="mainPassword">Gerar Senha</button>
+                            </div>
+                            <div class="password-wrapper mt-1">
+                                <input type="text" id="mainPassword" name="mainPassword" class="block w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg pr-10">
+                                <button type="button" class="copy-btn" data-target="mainPassword">
+                                     <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"></path></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MK Solutions -->
+                <div class="form-section">
+                    <h2 class="form-section-title">MK Solutions (Info Adicional)</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <label for="mkLink" class="block text-sm font-medium text-gray-700">Link de Acesso</label>
+                            <input type="text" id="mkLink" name="mkLink" class="mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NATIVE -->
+                <div class="form-section">
+                    <h2 class="form-section-title">NATIVE (Info Adicional)</h2>
+                     <div class="space-y-4">
+                        <div>
+                            <label for="nativeLink" class="block text-sm font-medium text-gray-700">Link de Acesso</label>
+                            <input type="text" id="nativeLink" name="nativeLink" class="mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg">
+                        </div>
+                         <div>
+                            <label for="nativeRamal" class="block text-sm font-medium text-gray-700">Ramal</label>
+                            <input type="text" id="nativeRamal" name="nativeRamal" class="mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- OZMAP -->
+                <div class="form-section">
+                     <div class="flex items-center">
+                        <input id="includeOzmap" name="includeOzmap" type="checkbox" class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                        <label for="includeOzmap" class="ml-3 block text-sm font-medium text-gray-800">Incluir Acesso OZMAP (Opcional)</label>
+                    </div>
+                    <div id="ozmap-fields" class="hidden space-y-4 mt-4">
+                         <div>
+                            <label for="ozmapUsername" class="block text-sm font-medium text-gray-700">Usuário</label>
+                            <input type="text" id="ozmapUsername" name="ozmapUsername" class="mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg">
+                        </div>
+                        <div>
+                           <div class="flex items-center justify-between">
+                                <label for="ozmapPassword" class="block text-sm font-medium text-gray-700">Senha</label>
+                                <button type="button" class="text-sm font-medium text-blue-600 hover:text-blue-500" data-target="ozmapPassword">Gerar Senha</button>
+                            </div>
+                            <div class="password-wrapper mt-1">
+                                <input type="text" id="ozmapPassword" name="ozmapPassword" class="block w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg pr-10">
+                                <button type="button" class="copy-btn" data-target="ozmapPassword">
+                                    <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"></path></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botmaker -->
+                 <div class="form-section">
+                    <h2 class="form-section-title">Botmaker</h2>
+                    <p class="text-sm text-gray-600">O convite para criação do usuário será enviado para o e-mail Zimbra informado acima.</p>
+                </div>
+                
+                <div id="message-box" class="hidden p-3 rounded-lg text-sm text-center mt-6"></div>
+
+                <div>
+                    <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-transform transform hover:scale-105 mt-6">
+                        Criar Card
+                    </button>
+                </div>
+            </form>
+
+            <!-- Card Result Section -->
+            <div id="result-card" class="form-section hidden">
+                <h2 class="form-section-title">Card de Credenciais Gerado</h2>
+                <pre id="result-text" class="whitespace-pre-wrap bg-gray-100 p-4 rounded-lg text-sm text-gray-800 font-mono"></pre>
+                <div class="mt-4 flex space-x-4">
+                    <button id="copy-result-btn" class="flex-1 bg-gray-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-gray-700">Copiar Texto</button>
+                    <button id="send-email-btn" class="flex-1 bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700">Enviar por E-mail</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('credential-form');
+        const messageBox = document.getElementById('message-box');
+        const includeOzmapCheckbox = document.getElementById('includeOzmap');
+        const ozmapFields = document.getElementById('ozmap-fields');
+
+        const resultCard = document.getElementById('result-card');
+        const resultText = document.getElementById('result-text');
+        const copyResultBtn = document.getElementById('copy-result-btn');
+        const sendEmailBtn = document.getElementById('send-email-btn');
+        let generatedMailtoLink = '';
+
+        function generatePassword() {
+            const length = 14;
+            const upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            const lower = 'abcdefghijklmnopqrstuvwxyz';
+            const numbers = '0123456789';
+            const symbols = '!@#$%^&*()_+~`|}{[]:;?><,./-=';
+            const allChars = upper + lower + numbers + symbols;
+            let password = '';
+            password += upper[Math.floor(Math.random() * upper.length)];
+            password += lower[Math.floor(Math.random() * lower.length)];
+            password += numbers[Math.floor(Math.random() * numbers.length)];
+            password += symbols[Math.floor(Math.random() * symbols.length)];
+            for (let i = password.length; i < length; i++) {
+                password += allChars[Math.floor(Math.random() * allChars.length)];
+            }
+            return password.split('').sort(() => 0.5 - Math.random()).join('');
+        }
+        
+        function showMessage(message, isError = false) {
+            messageBox.textContent = message;
+            messageBox.className = 'p-3 rounded-lg text-sm text-center mt-6 block';
+            if (isError) {
+                messageBox.classList.add('bg-red-100', 'text-red-800');
+            } else {
+                messageBox.classList.add('bg-green-100', 'text-green-800');
+            }
+            setTimeout(() => {
+                messageBox.classList.add('hidden');
+            }, 3000);
+        }
+
+        function copyToClipboard(inputElement) {
+             if (!inputElement.value) {
+                showMessage(`Gere uma senha antes de copiar.`, true);
+                return;
+            }
+            const textarea = document.createElement('textarea');
+            textarea.value = inputElement.value;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            showMessage(`Senha copiada!`, false);
+        }
+
+        document.querySelectorAll('button[data-target]').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const targetId = e.currentTarget.dataset.target;
+                const targetInput = document.getElementById(targetId);
+
+                if (e.currentTarget.classList.contains('copy-btn')) {
+                    copyToClipboard(targetInput);
+                } else {
+                    targetInput.value = generatePassword();
+                    showMessage(`Nova senha gerada!`, false);
+                }
+            });
+        });
+
+        includeOzmapCheckbox.addEventListener('change', () => {
+            ozmapFields.classList.toggle('hidden', !includeOzmapCheckbox.checked);
+        });
+
+        copyResultBtn.addEventListener('click', () => {
+            const textarea = document.createElement('textarea');
+            textarea.value = resultText.innerText;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            showMessage(`Card copiado para a área de transferência!`, false);
+        });
+
+        sendEmailBtn.addEventListener('click', () => {
+            if (generatedMailtoLink) {
+                window.location.href = generatedMailtoLink;
+            }
+        });
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            if (!data.fullName || !data.zimbraEmail) {
+                showMessage('Nome completo e E-mail Zimbra são obrigatórios.', true);
+                resultCard.classList.add('hidden');
+                return;
+            }
+
+            const subject = `Bem-vindo(a) à Empresa - Suas Credenciais de Acesso`;
+            let body = `Olá, ${data.fullName}!\n\nSeja muito bem-vindo(a) à nossa equipe!\n\nAbaixo estão suas credenciais de acesso aos nossos sistemas.\n`;
+            
+            if (data.zimbraEmail || data.zimbraPassword) {
+                 body += `\n---------------------------------\n`;
+                 body += `E-MAIL (ZIMBRA)\n`;
+                 if(data.zimbraEmail) body += `E-mail: ${data.zimbraEmail}\n`;
+                 if(data.zimbraPassword) body += `Senha: ${data.zimbraPassword}\n`;
+            }
+            
+            const hasMainCredentials = data.mainUsername || data.mainPassword;
+
+            if(hasMainCredentials) {
+                body += `\n---------------------------------\n`;
+                body += `ACESSO AO COMPUTADOR (AD)\n`;
+                if(data.mainUsername) body += `Usuário: ${data.mainUsername}\n`;
+                if(data.mainPassword) body += `Senha: ${data.mainPassword}\n`;
+            }
+
+            if (data.mkLink || hasMainCredentials) {
+                body += `\n---------------------------------\n`;
+                body += `MK SOLUTIONS\n`;
+                if(data.mkLink) body += `Link: ${data.mkLink}\n`;
+                if(data.mainUsername) body += `Usuário: ${data.mainUsername}\n`;
+                if(data.mainPassword) body += `Senha: ${data.mainPassword}\n`;
+            }
+
+            if (data.nativeLink || data.nativeRamal || hasMainCredentials) {
+                body += `\n---------------------------------\n`;
+                body += `NATIVE\n`;
+                if(data.nativeLink) body += `Link: ${data.nativeLink}\n`;
+                if(data.mainUsername) body += `Usuário: ${data.mainUsername}\n`;
+                if(data.mainPassword) body += `Senha: ${data.mainPassword}\n`;
+                if(data.nativeRamal) body += `Ramal: ${data.nativeRamal}\n`;
+            }
+            
+            if (data.includeOzmap && (data.ozmapUsername || data.ozmapPassword)) {
+                 body += `\n---------------------------------\n`;
+                 body += `OZMAP\n`;
+                 if(data.ozmapUsername) body += `Usuário: ${data.ozmapUsername}\n`;
+                 if(data.ozmapPassword) body += `Senha: ${data.ozmapPassword}\n`;
+            }
+
+            body += `\n---------------------------------\n`;
+            body += `BOTMAKER\n`;
+            body += `Um convite para criação do seu usuário será enviado para o seu e-mail (${data.zimbraEmail}).\n`;
+
+            body += `\n---------------------------------\n\nIMPORTANTE: Por segurança, recomendamos fortemente que você altere suas senhas no primeiro acesso sempre que possível.\n\nSe precisar de qualquer ajuda, não hesite em nos contatar.\n\nAtenciosamente,\n\nEquipe de TI`;
+
+            resultText.innerText = body;
+            resultCard.classList.remove('hidden');
+            resultCard.scrollIntoView({ behavior: 'smooth' });
+            
+            generatedMailtoLink = `mailto:${data.zimbraEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        });
+
+    </script>
+</body>
+</html>
+
