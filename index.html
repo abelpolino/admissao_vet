@@ -90,13 +90,10 @@
                     <div class="space-y-4">
                         <div>
                             <label for="zimbraEmail" class="block text-sm font-medium text-gray-700">E-mail</label>
-                            <input type="email" id="zimbraEmail" name="zimbraEmail" required class="mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg">
+                            <input type="email" id="zimbraEmail" name="zimbraEmail" required class="mt-1 block w-full px-4 py-3 bg-gray-200 border border-gray-300 rounded-lg" readonly>
                         </div>
                         <div>
-                            <div class="flex items-center justify-between">
-                                <label for="zimbraPassword" class="block text-sm font-medium text-gray-700">Senha</label>
-                                <button type="button" class="text-sm font-medium text-blue-600 hover:text-blue-500" data-target="zimbraPassword">Gerar Senha</button>
-                            </div>
+                            <label for="zimbraPassword" class="block text-sm font-medium text-gray-700">Senha</label>
                             <div class="password-wrapper mt-1">
                                 <input type="text" id="zimbraPassword" name="zimbraPassword" class="block w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg pr-10">
                                 <button type="button" class="copy-btn" data-target="zimbraPassword">
@@ -116,10 +113,7 @@
                             <input type="text" id="mainUsername" name="mainUsername" class="mt-1 block w-full px-4 py-3 bg-gray-200 border border-gray-300 rounded-lg" readonly>
                         </div>
                         <div>
-                            <div class="flex items-center justify-between">
-                                <label for="mainPassword" class="block text-sm font-medium text-gray-700">Senha</label>
-                                <button type="button" class="text-sm font-medium text-blue-600 hover:text-blue-500" data-target="mainPassword">Gerar Senha</button>
-                            </div>
+                            <label for="mainPassword" class="block text-sm font-medium text-gray-700">Senha</label>
                             <div class="password-wrapper mt-1">
                                 <input type="text" id="mainPassword" name="mainPassword" class="block w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg pr-10">
                                 <button type="button" class="copy-btn" data-target="mainPassword">
@@ -168,10 +162,7 @@
                             <input type="text" id="ozmapUsername" name="ozmapUsername" class="mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg">
                         </div>
                         <div>
-                           <div class="flex items-center justify-between">
-                                <label for="ozmapPassword" class="block text-sm font-medium text-gray-700">Senha</label>
-                                <button type="button" class="text-sm font-medium text-blue-600 hover:text-blue-500" data-target="ozmapPassword">Gerar Senha</button>
-                            </div>
+                           <label for="ozmapPassword" class="block text-sm font-medium text-gray-700">Senha</label>
                             <div class="password-wrapper mt-1">
                                 <input type="text" id="ozmapPassword" name="ozmapPassword" class="block w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg pr-10">
                                 <button type="button" class="copy-btn" data-target="ozmapPassword">
@@ -222,6 +213,8 @@
             const mkLinkInput = document.getElementById('mkLink');
             const nativeLinkInput = document.getElementById('nativeLink');
             const ozmapUsernameInput = document.getElementById('ozmapUsername');
+            const zimbraEmailInput = document.getElementById('zimbraEmail');
+            const ozmapPasswordInput = document.getElementById('ozmapPassword');
 
             const resultCard = document.getElementById('result-card');
             const resultText = document.getElementById('result-text');
@@ -232,15 +225,18 @@
             const companyLinks = {
                 Razaoinfo: {
                     mk: 'https://mk.razaoinfo.net.br/mk/login/?sys=MK0',
-                    native: 'https://native.razaoinfo.net.br/#!/login'
+                    native: 'https://native.razaoinfo.net.br/#!/login',
+                    domain: 'razaoinfo.com.br'
                 },
                 Vetorial: {
                     mk: 'https://erp.vetorial.com/mk/login/?sys=MK0',
-                    native: 'https://native.vetorial.com/#!/login'
+                    native: 'https://native.vetorial.com/#!/login',
+                    domain: 'vetorial.com'
                 },
                 Bitcom: {
                     mk: 'https://mk.bitcom.com.br/mk/login/?sys=MK0',
-                    native: 'https://bitcom.native-infinity.com.br'
+                    native: 'https://bitcom.native-infinity.com.br',
+                    domain: 'bitcom.com.br'
                 }
             };
 
@@ -252,13 +248,16 @@
                 const symbols = '!@#$%&*';
                 const allChars = upper + lower + numbers + symbols;
                 let password = '';
+                // Garante pelo menos um de cada tipo
                 password += upper[Math.floor(Math.random() * upper.length)];
                 password += lower[Math.floor(Math.random() * lower.length)];
                 password += numbers[Math.floor(Math.random() * numbers.length)];
                 password += symbols[Math.floor(Math.random() * symbols.length)];
+                // Preenche o resto da senha
                 for (let i = password.length; i < length; i++) {
                     password += allChars[Math.floor(Math.random() * allChars.length)];
                 }
+                // Embaralha a senha para torná-la mais aleatória
                 return password.split('').sort(() => 0.5 - Math.random()).join('');
             }
             
@@ -288,10 +287,12 @@
                 document.body.removeChild(textarea);
                 showMessage(`Senha copiada!`, false);
             }
-            
-            fullNameInput.addEventListener('input', () => {
+
+            function updateGeneratedFields() {
                 const fullName = fullNameInput.value.trim();
+                const selectedCompany = companySelect.value;
                 let generatedUsername = '';
+
                 if (fullName) {
                     const normalize = (str) => 
                         str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -306,13 +307,25 @@
                 }
                 mainUsernameInput.value = generatedUsername;
 
-                if (companySelect.value === 'Bitcom') {
+                if (selectedCompany && generatedUsername && companyLinks[selectedCompany]) {
+                    const domain = companyLinks[selectedCompany].domain;
+                    zimbraEmailInput.value = `${generatedUsername}@${domain}`;
+                } else {
+                    zimbraEmailInput.value = '';
+                }
+
+                if (selectedCompany === 'Bitcom') {
                     ozmapUsernameInput.value = generatedUsername;
                 }
-            });
+            }
+            
+            fullNameInput.addEventListener('input', updateGeneratedFields);
 
             companySelect.addEventListener('change', () => {
                 const selectedCompany = companySelect.value;
+                
+                updateGeneratedFields();
+
                 if (selectedCompany && companyLinks[selectedCompany]) {
                     mkLinkInput.value = companyLinks[selectedCompany].mk;
                     nativeLinkInput.value = companyLinks[selectedCompany].native;
@@ -321,9 +334,11 @@
                         includeOzmapCheckbox.checked = true;
                         includeOzmapCheckbox.disabled = true;
                         ozmapFields.classList.remove('hidden');
-                        ozmapUsernameInput.value = mainUsernameInput.value;
                         ozmapUsernameInput.readOnly = true;
                         ozmapUsernameInput.classList.add('bg-gray-200');
+                        if (!ozmapPasswordInput.value) {
+                            ozmapPasswordInput.value = generatePassword();
+                        }
                     } else {
                         includeOzmapCheckbox.checked = false;
                         includeOzmapCheckbox.disabled = false;
@@ -338,22 +353,20 @@
                 }
             });
 
-            document.querySelectorAll('button[data-target]').forEach(button => {
+            document.querySelectorAll('button.copy-btn').forEach(button => {
                 button.addEventListener('click', (e) => {
                     const targetId = e.currentTarget.dataset.target;
                     const targetInput = document.getElementById(targetId);
-                    if (e.currentTarget.classList.contains('copy-btn')) {
-                        copyToClipboard(targetInput);
-                    } else {
-                        targetInput.value = generatePassword();
-                        showMessage(`Nova senha gerada!`, false);
-                    }
+                    copyToClipboard(targetInput);
                 });
             });
 
             includeOzmapCheckbox.addEventListener('change', () => {
                 if (!includeOzmapCheckbox.disabled) {
                      ozmapFields.classList.toggle('hidden', !includeOzmapCheckbox.checked);
+                     if(includeOzmapCheckbox.checked && !ozmapPasswordInput.value) {
+                        ozmapPasswordInput.value = generatePassword();
+                     }
                 }
             });
 
@@ -376,14 +389,10 @@
             form.addEventListener('submit', (e) => {
                 e.preventDefault();
                 
-                // Re-enable checkbox to get its value if it was disabled
                 const isBitcom = companySelect.value === 'Bitcom';
                 if (isBitcom) includeOzmapCheckbox.disabled = false;
-
                 const data = Object.fromEntries(new FormData(form).entries());
-
                 if (isBitcom) includeOzmapCheckbox.disabled = true;
-
 
                 if (!data.fullName || !data.zimbraEmail || !data.company) {
                     showMessage('Nome, Empresa e E-mail Zimbra são obrigatórios.', true);
@@ -446,6 +455,10 @@
                 
                 generatedMailtoLink = `mailto:${data.zimbraEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
             });
+
+            // Pré-gera as senhas iniciais
+            document.getElementById('zimbraPassword').value = generatePassword();
+            document.getElementById('mainPassword').value = generatePassword();
         });
     </script>
 </body>
