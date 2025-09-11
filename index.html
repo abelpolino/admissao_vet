@@ -21,14 +21,19 @@
             width: 100%;
             max-width: 42rem;
             border-radius: 0.75rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
             overflow: hidden;
+            transition: all 0.3s ease-in-out;
         }
         .form-section {
             border: 1px solid #e5e7eb;
             border-radius: 0.5rem;
             padding: 1.5rem;
             margin-top: 1.5rem;
+        }
+        /* Cor de fundo alternada para melhor escaneabilidade */
+        .form-section:nth-of-type(odd) {
+            background-color: #f9fafb;
         }
         .form-section-title {
             font-weight: 600;
@@ -46,23 +51,35 @@
             display: flex;
             align-items: center;
             color: #6b7280;
+            transition: color 0.2s ease-in-out;
         }
         .copy-btn:hover {
             color: #1f2937;
+        }
+        /* Animação de fade-in para o card de resultado */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .result-card-show {
+            animation: fadeIn 0.5s ease-out forwards;
         }
     </style>
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
 
     <div id="main-card">
+        <div class="bg-slate-800 p-4 text-center text-white shadow-md">
+            <h1 class="text-xl font-semibold tracking-wide">Gerador de Credenciais</h1>
+        </div>
         <div class="p-8">
-            <h1 class="text-2xl font-bold text-gray-800 text-center">Credenciais do Novo Funcionário</h1>
+            <h1 class="text-2xl font-bold text-gray-800 text-center">Novo Funcionário</h1>
             <p class="text-center text-gray-500 mt-2 mb-8">Preencha os dados abaixo para gerar as credenciais.</p>
 
             <form id="credential-form">
                 <!-- Informações Básicas -->
                 <div class="form-section">
-                     <h2 class="form-section-title">Informações do Funcionário</h2>
+                     <h2 class="form-section-title">1. Informações do Funcionário 🧑‍💼</h2>
                      <div>
                         <label for="fullName" class="block text-sm font-medium text-gray-700">Nome Completo</label>
                         <input type="text" id="fullName" name="fullName" required
@@ -72,7 +89,7 @@
 
                 <!-- Seleção de Empresa -->
                 <div class="form-section">
-                    <h2 class="form-section-title">Empresa</h2>
+                    <h2 class="form-section-title">2. Empresa 🏢</h2>
                     <div>
                         <label for="company" class="block text-sm font-medium text-gray-700">Selecione a empresa contratante</label>
                         <select id="company" name="company" required class="mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
@@ -86,7 +103,7 @@
 
                 <!-- Zimbra -->
                 <div class="form-section">
-                    <h2 class="form-section-title">Zimbra E-mail</h2>
+                    <h2 class="form-section-title">3. Zimbra E-mail 📧</h2>
                     <div class="space-y-4">
                         <div>
                             <label for="zimbraEmail" class="block text-sm font-medium text-gray-700">E-mail</label>
@@ -97,7 +114,8 @@
                             <div class="password-wrapper mt-1">
                                 <input type="text" id="zimbraPassword" name="zimbraPassword" class="block w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg pr-10">
                                 <button type="button" class="copy-btn" data-target="zimbraPassword">
-                                     <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"></path></svg>
+                                     <svg class="h-5 w-5 copy-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"></path></svg>
+                                     <svg class="h-5 w-5 check-icon hidden text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
                                 </button>
                             </div>
                         </div>
@@ -106,7 +124,7 @@
                 
                 <!-- Credenciais Unificadas -->
                 <div class="form-section">
-                    <h2 class="form-section-title">Acessos Principais (AD, MK, Native)</h2>
+                    <h2 class="form-section-title">4. Acessos Principais (AD, MK, Native) 🔑</h2>
                     <div class="space-y-4">
                         <div>
                             <label for="mainUsername" class="block text-sm font-medium text-gray-700">Usuário</label>
@@ -117,7 +135,8 @@
                             <div class="password-wrapper mt-1">
                                 <input type="text" id="mainPassword" name="mainPassword" class="block w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg pr-10">
                                 <button type="button" class="copy-btn" data-target="mainPassword">
-                                     <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"></path></svg>
+                                    <svg class="h-5 w-5 copy-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"></path></svg>
+                                    <svg class="h-5 w-5 check-icon hidden text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
                                 </button>
                             </div>
                         </div>
@@ -126,7 +145,7 @@
 
                 <!-- MK Solutions -->
                 <div class="form-section">
-                    <h2 class="form-section-title">MK Solutions (Info Adicional)</h2>
+                    <h2 class="form-section-title">5. MK Solutions (Info Adicional) 🖥️</h2>
                     <div class="space-y-4">
                         <div>
                             <label for="mkLink" class="block text-sm font-medium text-gray-700">Link de Acesso</label>
@@ -137,7 +156,7 @@
 
                 <!-- NATIVE -->
                 <div class="form-section">
-                    <h2 class="form-section-title">NATIVE (Info Adicional)</h2>
+                    <h2 class="form-section-title">6. NATIVE (Info Adicional) 📞</h2>
                      <div class="space-y-4">
                         <div>
                             <label for="nativeLink" class="block text-sm font-medium text-gray-700">Link de Acesso</label>
@@ -154,7 +173,7 @@
                 <div class="form-section">
                      <div class="flex items-center">
                         <input id="includeOzmap" name="includeOzmap" type="checkbox" class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
-                        <label for="includeOzmap" class="ml-3 block text-sm font-medium text-gray-800">Incluir Acesso OZMAP (Automático para Bitcom)</label>
+                        <label for="includeOzmap" class="ml-3 block text-sm font-medium text-gray-800">7. Incluir Acesso OZMAP 🗺️ (Automático para Bitcom)</label>
                     </div>
                     <div id="ozmap-fields" class="hidden space-y-4 mt-4">
                          <div>
@@ -166,7 +185,8 @@
                             <div class="password-wrapper mt-1">
                                 <input type="text" id="ozmapPassword" name="ozmapPassword" class="block w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg pr-10">
                                 <button type="button" class="copy-btn" data-target="ozmapPassword">
-                                    <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"></path></svg>
+                                    <svg class="h-5 w-5 copy-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"></path></svg>
+                                    <svg class="h-5 w-5 check-icon hidden text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
                                 </button>
                             </div>
                         </div>
@@ -175,14 +195,14 @@
 
                 <!-- Botmaker -->
                  <div class="form-section">
-                    <h2 class="form-section-title">Botmaker</h2>
+                    <h2 class="form-section-title">8. Botmaker 🤖</h2>
                     <p class="text-sm text-gray-600">O convite para criação do usuário será enviado para o e-mail Zimbra informado acima.</p>
                 </div>
                 
                 <div id="message-box" class="hidden p-3 rounded-lg text-sm text-center mt-6"></div>
 
                 <div>
-                    <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-transform transform hover:scale-105 mt-6">
+                    <button type="submit" id="submit-button" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all">
                         Criar Card
                     </button>
                 </div>
@@ -190,11 +210,11 @@
 
             <!-- Card Result Section -->
             <div id="result-card" class="form-section hidden">
-                <h2 class="form-section-title">Card de Credenciais Gerado</h2>
+                <h2 class="form-section-title">Card de Credenciais Gerado ✨</h2>
                 <pre id="result-text" class="whitespace-pre-wrap bg-gray-100 p-4 rounded-lg text-sm text-gray-800 font-mono"></pre>
-                <div class="mt-4 flex space-x-4">
-                    <button id="copy-result-btn" class="flex-1 bg-gray-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-gray-700">Copiar Texto</button>
-                    <button id="send-email-btn" class="flex-1 bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700">Enviar por E-mail</button>
+                <div class="mt-4 flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
+                    <button id="copy-result-btn" class="flex-1 bg-gray-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-gray-700 transition-colors">Copiar Texto</button>
+                    <button id="send-email-btn" class="flex-1 bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">Enviar por E-mail</button>
                 </div>
             </div>
 
@@ -215,6 +235,7 @@
             const ozmapUsernameInput = document.getElementById('ozmapUsername');
             const zimbraEmailInput = document.getElementById('zimbraEmail');
             const ozmapPasswordInput = document.getElementById('ozmapPassword');
+            const submitButton = document.getElementById('submit-button');
 
             const resultCard = document.getElementById('result-card');
             const resultText = document.getElementById('result-text');
@@ -224,17 +245,17 @@
 
             const companyLinks = {
                 Razaoinfo: {
-                    mk: 'https://mk.razaoinfo.net.br/mk',
-                    native: 'https://native.razaoinfo.net.br',
+                    mk: 'https://mk.razaoinfo.net.br/mk/login/?sys=MK0',
+                    native: 'https://native.razaoinfo.net.br/#!/login',
                     domain: 'razaoinfo.com.br'
                 },
                 Vetorial: {
-                    mk: 'https://erp.vetorial.com/mk',
-                    native: 'https://native.vetorial.com',
+                    mk: 'https://erp.vetorial.com/mk/login/?sys=MK0',
+                    native: 'https://native.vetorial.com/#!/login',
                     domain: 'vetorial.com'
                 },
                 Bitcom: {
-                    mk: 'https://mk.bitcom.com.br/mk',
+                    mk: 'https://mk.bitcom.com.br/mk/login/?sys=MK0',
                     native: 'https://bitcom.native-infinity.com.br',
                     domain: 'bitcom.com.br'
                 }
@@ -248,16 +269,13 @@
                 const symbols = '!@#$%&*';
                 const allChars = upper + lower + numbers + symbols;
                 let password = '';
-                // Garante pelo menos um de cada tipo
                 password += upper[Math.floor(Math.random() * upper.length)];
                 password += lower[Math.floor(Math.random() * lower.length)];
                 password += numbers[Math.floor(Math.random() * numbers.length)];
                 password += symbols[Math.floor(Math.random() * symbols.length)];
-                // Preenche o resto da senha
                 for (let i = password.length; i < length; i++) {
                     password += allChars[Math.floor(Math.random() * allChars.length)];
                 }
-                // Embaralha a senha para torná-la mais aleatória
                 return password.split('').sort(() => 0.5 - Math.random()).join('');
             }
             
@@ -274,18 +292,36 @@
                 }, 3000);
             }
 
-            function copyToClipboard(inputElement) {
+            function copyToClipboard(inputElement, buttonElement) {
                  if (!inputElement.value) {
-                    showMessage(`Gere uma senha antes de copiar.`, true);
+                    showMessage(`Nada para copiar.`, true);
                     return;
                 }
-                const textarea = document.createElement('textarea');
-                textarea.value = inputElement.value;
-                document.body.appendChild(textarea);
-                textarea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textarea);
-                showMessage(`Senha copiada!`, false);
+                navigator.clipboard.writeText(inputElement.value).then(() => {
+                    showMessage(`Senha copiada!`, false);
+                    const copyIcon = buttonElement.querySelector('.copy-icon');
+                    const checkIcon = buttonElement.querySelector('.check-icon');
+                    if(copyIcon && checkIcon){
+                        copyIcon.classList.add('hidden');
+                        checkIcon.classList.remove('hidden');
+                        setTimeout(() => {
+                            copyIcon.classList.remove('hidden');
+                            checkIcon.classList.add('hidden');
+                        }, 2000);
+                    }
+                }).catch(err => {
+                    showMessage('Falha ao copiar.', true);
+                });
+            }
+
+            function validateForm() {
+                const isFormValid = fullNameInput.value.trim() !== '' && companySelect.value !== '';
+                submitButton.disabled = !isFormValid;
+                if(isFormValid) {
+                    submitButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                } else {
+                    submitButton.classList.add('opacity-50', 'cursor-not-allowed');
+                }
             }
 
             function updateGeneratedFields() {
@@ -319,12 +355,15 @@
                 }
             }
             
-            fullNameInput.addEventListener('input', updateGeneratedFields);
+            fullNameInput.addEventListener('input', () => {
+                updateGeneratedFields();
+                validateForm();
+            });
 
             companySelect.addEventListener('change', () => {
                 const selectedCompany = companySelect.value;
-                
                 updateGeneratedFields();
+                validateForm();
 
                 if (selectedCompany && companyLinks[selectedCompany]) {
                     mkLinkInput.value = companyLinks[selectedCompany].mk;
@@ -357,7 +396,7 @@
                 button.addEventListener('click', (e) => {
                     const targetId = e.currentTarget.dataset.target;
                     const targetInput = document.getElementById(targetId);
-                    copyToClipboard(targetInput);
+                    copyToClipboard(targetInput, e.currentTarget);
                 });
             });
 
@@ -371,13 +410,9 @@
             });
 
             copyResultBtn.addEventListener('click', () => {
-                const textarea = document.createElement('textarea');
-                textarea.value = resultText.innerText;
-                document.body.appendChild(textarea);
-                textarea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textarea);
-                showMessage(`Card copiado para a área de transferência!`, false);
+                navigator.clipboard.writeText(resultText.innerText).then(() => {
+                    showMessage(`Card copiado para a área de transferência!`, false);
+                });
             });
 
             sendEmailBtn.addEventListener('click', () => {
@@ -401,7 +436,7 @@
                 }
 
                 const subject = `Bem-vindo(a) à ${data.company} - Suas Credenciais de Acesso`;
-                let body = `Olá, ${data.fullName}!\n\nSeja muito bem-vindo(a) à ${data.company}!\n\nAbaixo estão suas credenciais de acesso aos nossos sistemas.\n`;
+                let body = `Olá, ${data.fullName}! 👋\n\nSeja muito bem-vindo(a) à ${data.company}!\n\nAbaixo estão suas credenciais de acesso aos nossos sistemas.\n`;
                 
                 if (data.zimbraEmail || data.zimbraPassword) {
                      body += `\n---------------------------------\n`;
@@ -447,18 +482,19 @@
                 body += `BOTMAKER\n`;
                 body += `Um convite para criação do seu usuário será enviado para o seu e-mail (${data.zimbraEmail}).\n`;
 
-                body += `\n---------------------------------\n\nIMPORTANTE: Por segurança, recomendamos fortemente que você altere suas senhas no primeiro acesso sempre que possível.\n\nSe precisar de qualquer ajuda, não hesite em nos contatar.\n\nAtenciosamente,\n\nEquipe de TI - ${data.company}`;
+                body += `\n---------------------------------\n\nIMPORTANTE: Por segurança, recomendamos fortemente que você altere suas senhas no primeiro acesso sempre que possível.\n\nSe precisar de qualquer ajuda, não hesite em nos contatar.\n\nAtenciosamente,\n\nEQUIPE STI`;
 
                 resultText.innerText = body;
                 resultCard.classList.remove('hidden');
+                resultCard.classList.add('result-card-show');
                 resultCard.scrollIntoView({ behavior: 'smooth' });
                 
                 generatedMailtoLink = `mailto:${data.zimbraEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
             });
 
-            // Pré-gera as senhas iniciais
             document.getElementById('zimbraPassword').value = generatePassword();
             document.getElementById('mainPassword').value = generatePassword();
+            validateForm(); // Initial validation check
         });
     </script>
 </body>
