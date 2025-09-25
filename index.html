@@ -78,9 +78,13 @@
             <p class="text-center text-gray-500 mt-2 mb-8">Preencha os dados abaixo para gerar as credenciais.</p>
 
             <form id="credential-form">
+                <!-- Hidden inputs for logic -->
+                <input type="text" id="mkLink" name="mkLink" readonly class="hidden">
+                <input type="text" id="nativeLink" name="nativeLink" readonly class="hidden">
+
                 <!-- Informações Básicas -->
                 <div class="form-section">
-                     <h2 class="form-section-title">1. Informações do Funcionário 🧑‍💼</h2>
+                     <h2 class="form-section-title">Informações do Funcionário 🧑‍💼</h2>
                      <div>
                         <label for="fullName" class="block text-sm font-medium text-gray-700">Nome Completo</label>
                         <input type="text" id="fullName" name="fullName" required
@@ -90,7 +94,7 @@
 
                 <!-- Seleção de Empresa -->
                 <div class="form-section">
-                    <h2 class="form-section-title">2. Empresa 🏢</h2>
+                    <h2 class="form-section-title">Empresa 🏢</h2>
                     <div>
                         <label for="company" class="block text-sm font-medium text-gray-700">Selecione a empresa contratante</label>
                         <select id="company" name="company" required class="mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
@@ -112,28 +116,21 @@
 
                 <!-- Zimbra -->
                 <div class="form-section">
-                    <h2 class="form-section-title">3. Zimbra E-mail 📧</h2>
+                    <h2 class="form-section-title">Zimbra E-mail 📧</h2>
                     <div class="space-y-4">
                         <div>
                             <label for="zimbraEmail" class="block text-sm font-medium text-gray-700">E-mail</label>
                             <input type="email" id="zimbraEmail" name="zimbraEmail" required class="mt-1 block w-full px-4 py-3 bg-gray-200 border border-gray-300 rounded-lg" readonly>
                         </div>
                         <div>
-                            <label for="zimbraPassword" class="block text-sm font-medium text-gray-700">Senha</label>
-                            <div class="password-wrapper mt-1">
-                                <input type="text" id="zimbraPassword" name="zimbraPassword" class="block w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg pr-10">
-                                <button type="button" class="copy-btn" data-target="zimbraPassword">
-                                     <svg class="h-5 w-5 copy-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"></path></svg>
-                                     <svg class="h-5 w-5 check-icon hidden text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                                </button>
-                            </div>
+                            <p class="text-sm text-gray-600 mt-2">A senha do e-mail é a mesma dos Acessos Principais.</p>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Credenciais Unificadas -->
                 <div class="form-section">
-                    <h2 id="main-access-title" class="form-section-title">4. Acessos Principais (AD, MK, Native) 🔑</h2>
+                    <h2 id="main-access-title" class="form-section-title">Acessos Principais (AD, MK, Native) 🔑</h2>
                     <div class="space-y-4">
                         <div>
                             <label for="mainUsername" class="block text-sm font-medium text-gray-700">Usuário</label>
@@ -152,25 +149,10 @@
                     </div>
                 </div>
 
-                <!-- MK Solutions -->
-                <div id="mk-section" class="form-section">
-                    <h2 id="mk-title" class="form-section-title">5. MK Solutions (Info Adicional) 🖥️</h2>
-                    <div id="mk-link-container" class="space-y-4">
-                        <div>
-                            <label for="mkLink" class="block text-sm font-medium text-gray-700">Link de Acesso</label>
-                            <input type="text" id="mkLink" name="mkLink" class="mt-1 block w-full px-4 py-3 bg-gray-200 border border-gray-300 rounded-lg" readonly>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- NATIVE -->
                 <div id="native-section" class="form-section">
-                    <h2 class="form-section-title">6. NATIVE (Info Adicional) 📞</h2>
+                    <h2 class="form-section-title">NATIVE (Info Adicional) 📞</h2>
                      <div class="space-y-4">
-                        <div>
-                            <label for="nativeLink" class="block text-sm font-medium text-gray-700">Link de Acesso</label>
-                            <input type="text" id="nativeLink" name="nativeLink" class="mt-1 block w-full px-4 py-3 bg-gray-200 border border-gray-300 rounded-lg" readonly>
-                        </div>
                          <div>
                             <label for="nativeRamal" class="block text-sm font-medium text-gray-700">Ramal</label>
                             <input type="text" id="nativeRamal" name="nativeRamal" class="mt-1 block w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg">
@@ -182,7 +164,7 @@
                 <div id="ozmap-section" class="form-section">
                      <div class="flex items-center">
                         <input id="includeOzmap" name="includeOzmap" type="checkbox" class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
-                        <label for="includeOzmap" class="ml-3 block text-sm font-medium text-gray-800">7. Incluir Acesso OZMAP 🗺️ (Automático para Bitcom)</label>
+                        <label for="includeOzmap" class="ml-3 block text-sm font-medium text-gray-800">Incluir Acesso OZMAP 🗺️ (Automático para Bitcom)</label>
                     </div>
                     <div id="ozmap-fields" class="hidden space-y-4 mt-4">
                          <div>
@@ -204,7 +186,7 @@
 
                 <!-- Botmaker -->
                  <div id="botmaker-section" class="form-section">
-                    <h2 class="form-section-title">8. Botmaker 🤖</h2>
+                    <h2 class="form-section-title">Botmaker 🤖</h2>
                     <p class="text-sm text-gray-600">O convite para criação do usuário será enviado para o e-mail Zimbra informado acima.</p>
                 </div>
                 
@@ -250,7 +232,6 @@
             const nativeSection = document.getElementById('native-section');
             const ozmapSection = document.getElementById('ozmap-section');
             const botmakerSection = document.getElementById('botmaker-section');
-            const mkSection = document.getElementById('mk-section');
             const mainAccessTitle = document.getElementById('main-access-title');
 
             const resultCard = document.getElementById('result-card');
@@ -263,17 +244,20 @@
                 Razaoinfo: {
                     mk: 'https://mk.razaoinfo.net.br/mk',
                     native: 'https://native.razaoinfo.net.br',
-                    domain: 'razaoinfo.com.br'
+                    domain: 'razaoinfo.com.br',
+                    webmail: 'http://webmail.razaoinfo.com.br/'
                 },
                 Vetorial: {
                     mk: 'https://erp.vetorial.com/mk',
                     native: 'https://native.vetorial.com',
-                    domain: 'vetorial.com'
+                    domain: 'vetorial.com',
+                    webmail: 'http://webmail.vetorial.com.br/'
                 },
                 Bitcom: {
                     mk: 'https://mk.bitcom.com.br/mk',
                     native: 'https://bitcom.native-infinity.com.br',
-                    domain: 'bitcom.com.br'
+                    domain: 'bitcom.com.br',
+                    webmail: 'http://webmail.bitcom.com.br/'
                 }
             };
 
@@ -398,12 +382,11 @@
                 nativeSection.classList.toggle('hidden', isChecked);
                 ozmapSection.classList.toggle('hidden', isChecked);
                 botmakerSection.classList.toggle('hidden', isChecked);
-                mkSection.classList.toggle('hidden', isChecked);
-
+                
                 if(isChecked) {
-                    mainAccessTitle.innerHTML = '4. Acessos Principais (AD, MK) 🔑';
+                    mainAccessTitle.innerHTML = 'Acessos Principais (AD, MK) 🔑';
                 } else {
-                    mainAccessTitle.innerHTML = '4. Acessos Principais (AD, MK, Native) 🔑';
+                    mainAccessTitle.innerHTML = 'Acessos Principais (AD, MK, Native) 🔑';
                 }
                 
                 if (!isChecked && selectedCompany === 'Bitcom') {
@@ -471,11 +454,14 @@
                 const subject = `Bem-vindo(a) à ${data.company} - Suas Credenciais de Acesso`;
                 let body = `Olá, ${data.fullName}! 👋\n\nSeja muito bem-vindo(a) à ${data.company}!\n\nAbaixo estão suas credenciais de acesso aos nossos sistemas.\n`;
                 
-                if (data.zimbraEmail || data.zimbraPassword) {
+                if (data.zimbraEmail) {
                      body += `\n---------------------------------\n`;
                      body += `E-MAIL (ZIMBRA)\n`;
-                     if(data.zimbraEmail) body += `E-mail: ${data.zimbraEmail}\n`;
-                     if(data.zimbraPassword) body += `Senha: ${data.zimbraPassword}\n`;
+                     body += `E-mail: ${data.zimbraEmail}\n`;
+                     body += `Senha: ${data.mainPassword}\n`; // Use main password
+                     if(companyLinks[data.company] && companyLinks[data.company].webmail) {
+                        body += `Link Webmail: ${companyLinks[data.company].webmail}\n`;
+                     }
                 }
                 
                 const hasMainCredentials = data.mainUsername || data.mainPassword;
@@ -512,6 +498,7 @@
                     if (data.includeOzmap && (data.ozmapUsername || data.ozmapPassword)) {
                          body += `\n---------------------------------\n`;
                          body += `OZMAP\n`;
+                         body += `Link: http://bitcom.ozmap.com.br:9090/\n`;
                          if(data.ozmapUsername) body += `Usuário: ${data.ozmapUsername}\n`;
                          if(data.ozmapPassword) body += `Senha: ${data.ozmapPassword}\n`;
                     }
@@ -531,7 +518,6 @@
                 generatedMailtoLink = `mailto:${data.zimbraEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
             });
 
-            document.getElementById('zimbraPassword').value = generatePassword();
             document.getElementById('mainPassword').value = generatePassword();
             validateForm(); // Initial validation check
         });
