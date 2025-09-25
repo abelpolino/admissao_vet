@@ -30,6 +30,7 @@
             border-radius: 0.5rem;
             padding: 1.5rem;
             margin-top: 1.5rem;
+            transition: all 0.3s ease-in-out;
         }
         /* Cor de fundo alternada para melhor escaneabilidade */
         .form-section:nth-of-type(odd) {
@@ -101,6 +102,14 @@
                     </div>
                 </div>
 
+                <!-- Verificação de Técnico Externo -->
+                <div class="form-section bg-blue-50 border-blue-200">
+                    <div class="flex items-center">
+                       <input id="isExternalTechnician" name="isExternalTechnician" type="checkbox" class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                       <label for="isExternalTechnician" class="ml-3 block text-sm font-medium text-blue-900">É técnico externo? 🔧 (Apenas E-mail, AD e MK)</label>
+                   </div>
+                </div>
+
                 <!-- Zimbra -->
                 <div class="form-section">
                     <h2 class="form-section-title">3. Zimbra E-mail 📧</h2>
@@ -124,7 +133,7 @@
                 
                 <!-- Credenciais Unificadas -->
                 <div class="form-section">
-                    <h2 class="form-section-title">4. Acessos Principais (AD, MK, Native) 🔑</h2>
+                    <h2 id="main-access-title" class="form-section-title">4. Acessos Principais (AD, MK, Native) 🔑</h2>
                     <div class="space-y-4">
                         <div>
                             <label for="mainUsername" class="block text-sm font-medium text-gray-700">Usuário</label>
@@ -144,9 +153,9 @@
                 </div>
 
                 <!-- MK Solutions -->
-                <div class="form-section">
-                    <h2 class="form-section-title">5. MK Solutions (Info Adicional) 🖥️</h2>
-                    <div class="space-y-4">
+                <div id="mk-section" class="form-section">
+                    <h2 id="mk-title" class="form-section-title">5. MK Solutions (Info Adicional) 🖥️</h2>
+                    <div id="mk-link-container" class="space-y-4">
                         <div>
                             <label for="mkLink" class="block text-sm font-medium text-gray-700">Link de Acesso</label>
                             <input type="text" id="mkLink" name="mkLink" class="mt-1 block w-full px-4 py-3 bg-gray-200 border border-gray-300 rounded-lg" readonly>
@@ -155,7 +164,7 @@
                 </div>
 
                 <!-- NATIVE -->
-                <div class="form-section">
+                <div id="native-section" class="form-section">
                     <h2 class="form-section-title">6. NATIVE (Info Adicional) 📞</h2>
                      <div class="space-y-4">
                         <div>
@@ -170,7 +179,7 @@
                 </div>
                 
                 <!-- OZMAP -->
-                <div class="form-section">
+                <div id="ozmap-section" class="form-section">
                      <div class="flex items-center">
                         <input id="includeOzmap" name="includeOzmap" type="checkbox" class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
                         <label for="includeOzmap" class="ml-3 block text-sm font-medium text-gray-800">7. Incluir Acesso OZMAP 🗺️ (Automático para Bitcom)</label>
@@ -194,7 +203,7 @@
                 </div>
 
                 <!-- Botmaker -->
-                 <div class="form-section">
+                 <div id="botmaker-section" class="form-section">
                     <h2 class="form-section-title">8. Botmaker 🤖</h2>
                     <p class="text-sm text-gray-600">O convite para criação do usuário será enviado para o e-mail Zimbra informado acima.</p>
                 </div>
@@ -236,6 +245,13 @@
             const zimbraEmailInput = document.getElementById('zimbraEmail');
             const ozmapPasswordInput = document.getElementById('ozmapPassword');
             const submitButton = document.getElementById('submit-button');
+            const isExternalTechnicianCheckbox = document.getElementById('isExternalTechnician');
+            
+            const nativeSection = document.getElementById('native-section');
+            const ozmapSection = document.getElementById('ozmap-section');
+            const botmakerSection = document.getElementById('botmaker-section');
+            const mkSection = document.getElementById('mk-section');
+            const mainAccessTitle = document.getElementById('main-access-title');
 
             const resultCard = document.getElementById('result-card');
             const resultText = document.getElementById('result-text');
@@ -368,27 +384,44 @@
                 if (selectedCompany && companyLinks[selectedCompany]) {
                     mkLinkInput.value = companyLinks[selectedCompany].mk;
                     nativeLinkInput.value = companyLinks[selectedCompany].native;
-
-                    if (selectedCompany === 'Bitcom') {
-                        includeOzmapCheckbox.checked = true;
-                        includeOzmapCheckbox.disabled = true;
-                        ozmapFields.classList.remove('hidden');
-                        ozmapUsernameInput.readOnly = true;
-                        ozmapUsernameInput.classList.add('bg-gray-200');
-                        if (!ozmapPasswordInput.value) {
-                            ozmapPasswordInput.value = generatePassword();
-                        }
-                    } else {
-                        includeOzmapCheckbox.checked = false;
-                        includeOzmapCheckbox.disabled = false;
-                        ozmapFields.classList.add('hidden');
-                        ozmapUsernameInput.value = '';
-                        ozmapUsernameInput.readOnly = false;
-                        ozmapUsernameInput.classList.remove('bg-gray-200');
-                    }
                 } else {
                     mkLinkInput.value = '';
                     nativeLinkInput.value = '';
+                }
+                isExternalTechnicianCheckbox.dispatchEvent(new Event('change'));
+            });
+
+            isExternalTechnicianCheckbox.addEventListener('change', () => {
+                const isChecked = isExternalTechnicianCheckbox.checked;
+                const selectedCompany = companySelect.value;
+
+                nativeSection.classList.toggle('hidden', isChecked);
+                ozmapSection.classList.toggle('hidden', isChecked);
+                botmakerSection.classList.toggle('hidden', isChecked);
+                mkSection.classList.toggle('hidden', isChecked);
+
+                if(isChecked) {
+                    mainAccessTitle.innerHTML = '4. Acessos Principais (AD, MK) 🔑';
+                } else {
+                    mainAccessTitle.innerHTML = '4. Acessos Principais (AD, MK, Native) 🔑';
+                }
+                
+                if (!isChecked && selectedCompany === 'Bitcom') {
+                    includeOzmapCheckbox.checked = true;
+                    includeOzmapCheckbox.disabled = true;
+                    ozmapFields.classList.remove('hidden');
+                    ozmapUsernameInput.readOnly = true;
+                    ozmapUsernameInput.classList.add('bg-gray-200');
+                    if (!ozmapPasswordInput.value) {
+                        ozmapPasswordInput.value = generatePassword();
+                    }
+                } else if (!isChecked) {
+                     includeOzmapCheckbox.checked = false;
+                     includeOzmapCheckbox.disabled = false;
+                     ozmapFields.classList.add('hidden');
+                     ozmapUsernameInput.value = '';
+                     ozmapUsernameInput.readOnly = false;
+                     ozmapUsernameInput.classList.remove('bg-gray-200');
                 }
             });
 
@@ -425,9 +458,9 @@
                 e.preventDefault();
                 
                 const isBitcom = companySelect.value === 'Bitcom';
-                if (isBitcom) includeOzmapCheckbox.disabled = false;
+                if (isBitcom && !isExternalTechnicianCheckbox.checked) includeOzmapCheckbox.disabled = false;
                 const data = Object.fromEntries(new FormData(form).entries());
-                if (isBitcom) includeOzmapCheckbox.disabled = true;
+                if (isBitcom && !isExternalTechnicianCheckbox.checked) includeOzmapCheckbox.disabled = true;
 
                 if (!data.fullName || !data.zimbraEmail || !data.company) {
                     showMessage('Nome, Empresa e E-mail Zimbra são obrigatórios.', true);
@@ -454,33 +487,39 @@
                     if(data.mainPassword) body += `Senha: ${data.mainPassword}\n`;
                 }
 
-                if (data.mkLink || hasMainCredentials) {
+                if (hasMainCredentials) {
                     body += `\n---------------------------------\n`;
-                    body += `MK SOLUTIONS\n`;
-                    if(data.mkLink) body += `Link: ${data.mkLink}\n`;
+                    if (data.isExternalTechnician) {
+                        body += `ACESSO AO APP MK AGENTES+\n`;
+                    } else {
+                        body += `MK SOLUTIONS\n`;
+                        if(data.mkLink) body += `Link: ${data.mkLink}\n`;
+                    }
                     if(data.mainUsername) body += `Usuário: ${data.mainUsername}\n`;
                     if(data.mainPassword) body += `Senha: ${data.mainPassword}\n`;
-                }
-
-                if (data.nativeLink || data.nativeRamal || hasMainCredentials) {
-                    body += `\n---------------------------------\n`;
-                    body += `NATIVE\n`;
-                    if(data.nativeLink) body += `Link: ${data.nativeLink}\n`;
-                    if(data.mainUsername) body += `Usuário: ${data.mainUsername}\n`;
-                    if(data.mainPassword) body += `Senha: ${data.mainPassword}\n`;
-                    if(data.nativeRamal) body += `Ramal: ${data.nativeRamal}\n`;
                 }
                 
-                if (data.includeOzmap && (data.ozmapUsername || data.ozmapPassword)) {
-                     body += `\n---------------------------------\n`;
-                     body += `OZMAP\n`;
-                     if(data.ozmapUsername) body += `Usuário: ${data.ozmapUsername}\n`;
-                     if(data.ozmapPassword) body += `Senha: ${data.ozmapPassword}\n`;
+                if (!data.isExternalTechnician) {
+                    if (data.nativeLink || data.nativeRamal || hasMainCredentials) {
+                        body += `\n---------------------------------\n`;
+                        body += `NATIVE\n`;
+                        if(data.nativeLink) body += `Link: ${data.nativeLink}\n`;
+                        if(data.mainUsername) body += `Usuário: ${data.mainUsername}\n`;
+                        if(data.mainPassword) body += `Senha: ${data.mainPassword}\n`;
+                        if(data.nativeRamal) body += `Ramal: ${data.nativeRamal}\n`;
+                    }
+                    
+                    if (data.includeOzmap && (data.ozmapUsername || data.ozmapPassword)) {
+                         body += `\n---------------------------------\n`;
+                         body += `OZMAP\n`;
+                         if(data.ozmapUsername) body += `Usuário: ${data.ozmapUsername}\n`;
+                         if(data.ozmapPassword) body += `Senha: ${data.ozmapPassword}\n`;
+                    }
+    
+                    body += `\n---------------------------------\n`;
+                    body += `BOTMAKER\n`;
+                    body += `Um convite para criação do seu usuário será enviado para o seu e-mail (${data.zimbraEmail}).\n`;
                 }
-
-                body += `\n---------------------------------\n`;
-                body += `BOTMAKER\n`;
-                body += `Um convite para criação do seu usuário será enviado para o seu e-mail (${data.zimbraEmail}).\n`;
 
                 body += `\n---------------------------------\n\nIMPORTANTE: Por segurança, recomendamos fortemente que você altere suas senhas no primeiro acesso sempre que possível.\n\nSe precisar de qualquer ajuda, não hesite em nos contatar.\n\nAtenciosamente,\n\nEQUIPE STI`;
 
