@@ -220,6 +220,7 @@
             const ozmapFields = document.getElementById('ozmap-fields');
             const fullNameInput = document.getElementById('fullName');
             const mainUsernameInput = document.getElementById('mainUsername');
+            const mainPasswordInput = document.getElementById('mainPassword');
             const companySelect = document.getElementById('company');
             const mkLinkInput = document.getElementById('mkLink');
             const nativeLinkInput = document.getElementById('nativeLink');
@@ -352,6 +353,23 @@
 
                 if (selectedCompany === 'Bitcom') {
                     ozmapUsernameInput.value = generatedUsername;
+                }
+                
+                // Atualiza a senha condicional baseada na empresa
+                updatePasswordBasedOnCompany();
+            }
+            
+            function updatePasswordBasedOnCompany() {
+                const selectedCompany = companySelect.value;
+                
+                if (selectedCompany === 'Bitcom') {
+                    mainPasswordInput.value = 'Bitcom@2026';
+                    mainPasswordInput.readOnly = true;
+                    mainPasswordInput.classList.add('bg-gray-200');
+                } else {
+                    mainPasswordInput.value = generatePassword();
+                    mainPasswordInput.readOnly = false;
+                    mainPasswordInput.classList.remove('bg-gray-200');
                 }
             }
             
@@ -498,7 +516,7 @@
                     if (data.includeOzmap && (data.ozmapUsername || data.ozmapPassword)) {
                          body += `\n---------------------------------\n`;
                          body += `OZMAP\n`;
-                         body += `Link: http://bitcom.ozmap.com.br:9090/\n`;
+                         body += `Link: http://bitcom.ozmap.com.br:9090/n`;
                          if(data.ozmapUsername) body += `Usuário: ${data.ozmapUsername}\n`;
                          if(data.ozmapPassword) body += `Senha: ${data.ozmapPassword}\n`;
                     }
@@ -518,10 +536,9 @@
                 generatedMailtoLink = `mailto:${data.zimbraEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
             });
 
-            document.getElementById('mainPassword').value = generatePassword();
+            mainPasswordInput.value = generatePassword();
             validateForm(); // Initial validation check
         });
     </script>
 </body>
 </html>
-
